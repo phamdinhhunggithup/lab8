@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="site" v-bind:class="toggleExerciseClass">
+        <div class="loaderInner" v-bind:class="loadingClass"><div class="lds-circle"><div></div></div></div>
+        <div class="notification">
+            <div class="notifi-Inner" v-bind:class="togglePopupClass">
+                <div class="box" data-item="1" ref="boxNotifi1">
+                    <div class="notifi-title">Chào thầy Long ĐẸP TRAI (^.^)</div>
+                    <div class="notifi-item">Chào mừng thầy đến với Lab8 Của em ..!</div>
+                    <div class="notifi-button" v-on:click="nextNotifi">Tiếp theo >></div>
+                </div>
+                <div class="box" data-item="2" ref="boxNotifi2">
+                    <div class="notifi-title">Em là Phạm Đình Hùng , MSSV: PS14564</div>
+                    <div class="notifi-item">Sau đây là phần trình bày bài làm của em ..!</div>
+                    <div class="notifi-button" v-on:click="nextNotifi">Tiếp theo >></div>
+                </div>
+                <div class="box" data-item="3" ref="boxNotifi3">
+                    <div class="notifi-item">Thầy nhớ cho em 10đ điểm nha thầy ..(^.^)</div>
+                    <div class="notifi-button" v-on:click="doneNotifi" style="width: 300px">Nhấn lần cuối thầy ơi ..!</div>
+                </div>
+            </div>
+        </div>
+        <div class="animation-decorate"></div>
+        <div class="wrapper">
+            <header class="header" id="header">
+                <div class="container">
+                    <div class="header-wrapper">
+                        <div class="logo-wrapper"><a href="" class="main-logo">LOGO</a></div>
+                        <div class="menu-wrapper">
+                            <nav>
+                                <ul class="list-menu">
+                                    <li>
+                                        <a href="" class="menu-item"><span>menu item</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="" class="menu-item"><span>menu item</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="" class="menu-item"><span>menu item</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="" class="menu-item"><span>menu item</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="" class="menu-item"><span>menu item</span></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="wp-content" id="wpContent">
+                <div class="content-Inner" v-bind:class="toggleSidebarClass">
+                    <div class="siderbar">
+                        <aside class="sidebar-wrapper">
+                            <h3 class="sidebar-title">
+                                <span>PHẠM ĐÌNH HÙNG</span>
+                                <div class="wp-icon" v-on:click="toggleSidebar">
+                                    <span class="icon"></span>
+                                </div>
+                            </h3>
+                            <div class="teacher-img">
+                                <div class="background-img">
+                                    <img src="img/itme.jpg" alt="">
+                                </div>
+                                <a href="https://www.facebook.com/thaylongweb" class="facebook-link"><span>Vào facebook</span></a>
+                            </div>
+                        </aside>
+                    </div>
+                    <div v-if="IDexercise == 1" class="form-products">
+                        <div class="nextExercise" v-on:click="nextExercise(2)">Sang bài 2</div>
+                        <h2 class="form-title">
+                            <span>Thêm sản phẩm</span>
+                            <span class="highline"></span>
+                        </h2>
+                        <form action="" class="form-action" v-on:submit="handleAddProd">
+                            <div class="wrapper-form">
+                                <div class="form-group">
+                                    <label for="name-product" class="label-title">Tên sản phẩm</label>
+                                    <input type="text" v-on:blur="handleCheckNameProd" name="name-product" placeholder="Nhập tên sản phẩm..." id="name-product" class="form-control" autocomplete="off" spellcheck="false">
+                                    <span class="error" ref="errorNameProd"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="amount-product" class="label-title">Số lượng</label>
+                                    <input type="number" v-on:blur="handleCheckAmountProd" min="1" name="amount-product" placeholder="Nhập số lượng sản phẩm..." id="amount-product" class="form-control" autocomplete="off" spellcheck="false">
+                                    <span class="error" ref="errorAmountProd"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="producer" class="label-title">Nhà sản xuất</label>
+                                    <input type="text" v-on:blur="handleCheckProducer" name="producer" id="producer" placeholder="Nhập nhà sản xuất..." class="form-control" autocomplete="off" spellcheck="false">
+                                    <span class="error" ref="errorProducer"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="label-title">Tình trạng</label>
+                                    <div class="list-check-select">
+                                        <div class="check-select-item">
+                                            <input type="radio" id="status-old" name="status-product[]" value="oldProd">
+                                            <label for="status-old" class="label-sub-title">Hàng cũ</label>
+                                        </div>
+                                        <div class="check-select-item">
+                                            <input type="radio" id="status-new" name="status-product[]" value="newProd">
+                                            <label for="status-new" class="label-sub-title">Hàng mới</label>
+                                        </div>
+                                    </div>
+                                    <span class="error" ref="errorStatus"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="label-title">Màu sắc</label>
+                                    <div class="list-check-select">
+                                        <div class="check-select-item">
+                                            <input type="checkbox" name="colorProd[]" id="redProd" value="redProd">
+                                            <label for="redProd" class="label-sub-title">Đỏ</label>
+                                        </div>
+                                        <div class="check-select-item">
+                                            <input type="checkbox" name="colorProd[]" id="blackProd" value="blackProd">
+                                            <label for="blackProd" class="label-sub-title">Đen</label>
+                                        </div>
+                                        <div class="check-select-item">
+                                            <input type="checkbox" name="colorProd[]" id="whiteProd" value="whiteProd">
+                                            <label for="whiteProd" class="label-sub-title">Trắng</label>
+                                        </div>
+                                    </div>
+                                    <span class="error" ref="errorColor"></span>
+                                </div>
+                                <div class="form-button">
+                                    <button type="submit" class="btn-addProd">Nhập sản phẩm</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div v-if="IDexercise == 2" class="form-products" style="height: 560px">
+                        <div class="nextExercise" v-on:click="nextExercise(1)">Sang bài 1</div>
+                        <h2 class="form-title">
+                            <span>Bài tập 2</span>
+                            <span class="highline"></span>
+                        </h2>
+                        <div class="list-button">
+                            <button class="buttonOpen-exercise" v-on:click="openExerciseOf2ID(1)">Mở bài 1</button>
+                            <button class="buttonOpen-exercise" v-on:click="openExerciseOf2ID(2)">Mở bài 2</button>
+                        </div>
+                        <div class="listExerciseOF2" v-bind:class="toogleClassExerciseOF2">
+                            <span class="closeExerciseOF2" v-on:click="closeListExercuseOF2">Đóng</span>
+                            <div class="exerciseItem exercise1of2" v-bind:class="{ show : exerciseOf2Id === 1 }">
+                                <span class="open-exerNext" v-on:click="openExerciseOf2ID(2)">Mở bài 2</span>
+                                <div class="main-content-exercise" style="flex-direction: column; position: relative;">
+                                    <div class="clock"> 
+                                        <div class="hand hour" ref="data_hour_hand"></div>
+                                        <div class="hand minute" ref="data_minute_hand"></div>
+                                        <div class="hand second" ref="data_second_hand"></div>
+                                        <div class="number number1">1</div>
+                                        <div class="number number2">2</div>
+                                        <div class="number number3">3</div>
+                                        <div class="number number4">4</div>
+                                        <div class="number number5">5</div>
+                                        <div class="number number6">6</div>
+                                        <div class="number number7">7</div>
+                                        <div class="number number8">8</div>
+                                        <div class="number number9">9</div>
+                                        <div class="number number10">10</div>
+                                        <div class="number number11">11</div>
+                                        <div class="number number12">12</div>
+                                    </div>
+                                    <div class="list-button_clock">
+                                        <button v-on:click="startClock" v-bind:class="{checked : clockStarting }">Bắt đầu</button>
+                                        <button v-on:click="stopClock" v-bind:class="{checked : !clockStarting }">Dừng lại</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="exerciseItem exercise2of2" v-bind:class="{ show : exerciseOf2Id === 2 }">
+                                <span class="open-exerNext" v-on:click="openExerciseOf2ID(1)">Mở bài 1</span>
+                                <div class="main-content-exercise">
+                                    <div class="selectWrapper">
+                                        <div class="selectControl" v-bind:class="buttonToggleSelectCourse">
+                                            <div class="selectInput">
+                                                <input type="text" v-bind:value="nameSelectCourse" class="selectInput-control" v-on:focus="openRecommentListCourse" autocomplete="off" spellcheck="false" name="listCourse" placeholder="Chọn bài học">
+                                                <span class="iconSelect"></span>
+                                            </div>
+                                            <div class="selectButtpn">
+                                                <button class="btnGotoCourse" v-on:click="gotoCourse">Xem bài học</button>
+                                            </div>
+                                        </div>
+                                        <div class="selectRecomment" v-bind:class="toggleClassRecomment">
+                                            <div class="listRecomment">
+                                                <div class="recommentItem" v-on:click="selectHrefCourse('https://longnv.name.vn/?s=Javascript+l%C3%A0+g%C3%AC+%3F','Javascript là gì ?')">Bài 1: Javascript là gì ?</div>
+                                                <div class="recommentItem" v-on:click="selectHrefCourse('https://longnv.name.vn/lap-trinh-javascript/bien-kieu-toan-tu-va-bieu-thuc-trong-javascript',' Biến, Toán tử và Biểu Thức')">Bài 2: Biến, Toán tử và Biểu Thức</div>
+                                                <div class="recommentItem" v-on:click="selectHrefCourse('https://longnv.name.vn/lap-trinh-javascript/cau-truc-dieu-khien-ham-va-su-kien-trong-javacript','Cấu trúc Điều Khiển, Hàm và Sự kiện')">Bài 3: Cấu trúc Điều Khiển, Hàm và Sự kiện</div>
+                                                <div class="recommentItem" v-on:click="selectHrefCourse('https://longnv.name.vn/lap-trinh-javascript/lap-trinh-doi-tuong-trong-javascript-va-mo-hinh-bom','Lập trình đối tượng và mô hình BOM')">Bài 4: Lập trình đối tượng và mô hình BOM</div>
+                                                <div class="recommentItem" v-on:click="selectHrefCourse('https://longnv.name.vn/?s=M%C3%B4+h%C3%ACnh+DOM+trong+javascript','Mô hình DOM trong javascript')">Bài 5: Mô hình DOM trong javascript</div>
+                                                <div class="recommentItem" v-on:click="selectHrefCourse('https://longnv.name.vn/su-dung-angularjs/lam-viec-voi-form-va-kiem-loi-trong-form','Validation form')">Bài 6: Validation form</div>
+                                                <div class="recommentItem" v-on:click="selectHrefCourse('https://longnv.name.vn/lap-trinh-javascript/gioi-thieu-ve-javascript-framework','Giới thiệu javascript Framework')">Bài 7: Giới thiệu javascript Framework</div>
+                                                <div class="recommentItem" v-on:click="selectHrefCourse('https://longnv.name.vn/lap-trinh-javascript/su-dung-angularjs','Tập tành sử dụng angularJS')">Bài 8: Tập tành sử dụng angularJS</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer">
+                <p>Bản quyền trang web thuộc sở hữu của Phạm Đình Hùng</p>
+            </footer>
+        </div>
+    </div>
+</body>
+<script src="app.js"></script>
+</html>
